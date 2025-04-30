@@ -3,7 +3,7 @@ AddStateBagChangeHandler('isLoggedIn', ('player:%s'):format(cache.serverId), fun
 end)
 
 RegisterNetEvent('qbx_core:client:onGroupUpdate', function(groupName, groupGrade)
-    local groups = PlayerData.groups
+    local groups = PlayerData.groups or {}
     if not groupGrade then
         groups[groupName] = nil
     else

@@ -86,6 +86,8 @@ function Weapon.Equip(item, data, noWeaponAnim)
 	end
 
 	TriggerEvent('ox_inventory:currentWeapon', item)
+    --compatibility with qb
+    TriggerEvent('weapons:client:SetCurrentWeapon', item, false)
 
 	if client.weaponnotify then
 		Utils.ItemNotify({ item, 'ui_equipped' })
@@ -128,6 +130,8 @@ function Weapon.Disarm(currentWeapon, noAnim)
 		end
 
 		TriggerEvent('ox_inventory:currentWeapon')
+        --compatibility with qb
+        TriggerEvent('weapons:client:SetCurrentWeapon', {}, true)
 	end
 
 	Utils.WeaponWheel()

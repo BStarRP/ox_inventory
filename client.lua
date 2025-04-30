@@ -1788,7 +1788,6 @@ RegisterNUICallback('swapItems', function(data, cb)
     if swapActive or not invOpen or invBusy or usingItem then return cb(false) end
 
     swapActive = true
-
 	if data.toType == 'newdrop' then
 		if cache.vehicle or IsPedFalling(playerPed) then
 			swapActive = false

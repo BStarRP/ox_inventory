@@ -66,11 +66,11 @@ end
 function server.buyLicense(inv, license)
 	if server.hasLicense(inv, license.name) then
 		return false, 'already_have'
-	elseif Inventory.GetItemCount(inv, 'money') < license.price then
+	elseif Inventory.GetItemCount(inv, 'cash') < license.price then
 		return false, 'can_not_afford'
 	end
 
-	Inventory.RemoveItem(inv, 'money', license.price)
+	Inventory.RemoveItem(inv, 'cash', license.price)
 	TriggerEvent('esx_license:addLicense', inv.id, license.name)
 
 	return true, 'have_purchased'

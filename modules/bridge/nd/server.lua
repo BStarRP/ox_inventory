@@ -44,8 +44,8 @@ end)
 
 AddEventHandler("ND:moneyChange", function(src, account, amount, changeType, reason)
     if account ~= "cash" then return end
-    local item = Inventory.GetItemCount(src, 'money')
-    Inventory.SetItem(src, "money", changeType == "set" and amount or changeType == "remove" and item - amount or changeType == "add" and item + amount)
+    local item = Inventory.GetItemCount(src, 'cash')
+    Inventory.SetItem(src, "cash", changeType == "set" and amount or changeType == "remove" and item - amount or changeType == "add" and item + amount)
 end)
 
 AddEventHandler("ND:updateCharacter", function(character)
@@ -94,11 +94,11 @@ end
 function server.buyLicense(inv, license)
 	if server.hasLicense(inv, license.name) then
 		return false, "already_have"
-	elseif Inventory.GetItemCount(inv, 'money') < license.price then
+	elseif Inventory.GetItemCount(inv, 'cash') < license.price then
 		return false, "can_not_afford"
 	end
 
-	Inventory.RemoveItem(inv, "money", license.price)
+	Inventory.RemoveItem(inv, 'cash', license.price)
     local player = NDCore.getPlayer(inv.id)
     player.createLicense("weapon")
 	return true, "have_purchased"

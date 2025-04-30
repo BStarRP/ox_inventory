@@ -29,7 +29,7 @@ local function setupShopItems(id, shopType, shopName, groups)
 				slot = i,
 				weight = Item.weight,
 				count = slot.count,
-				price = (server.randomprices and (not slot.currency or slot.currency == 'money')) and (math.ceil(slot.price * (math.random(80, 120)/100))) or slot.price or 0,
+				price = (server.randomprices and (not slot.currency or slot.currency == 'cash' or slot.currency == 'markedcash')) and (math.ceil(slot.price * (math.random(80, 120)/100))) or slot.price or 0,
 				metadata = slot.metadata,
 				license = slot.license,
 				currency = slot.currency,
@@ -157,7 +157,7 @@ local function canAffordItem(inv, currency, price)
 
 	return canAfford or {
 		type = 'error',
-		description = locale('cannot_afford', ('%s%s'):format((currency == 'money' and locale('$') or math.groupdigits(price)), (currency == 'money' and math.groupdigits(price) or ' '..Items(currency).label)))
+		description = locale('cannot_afford', ('%s%s'):format((currency == 'cash' and locale('$') or math.groupdigits(price)), (currency == 'cash' and math.groupdigits(price) or ' '..Items(currency).label)))
 	}
 end
 
@@ -218,7 +218,7 @@ lib.callback.register('ox_inventory:buyItem', function(source, data)
 				end
 			end
 
-			local currency = fromData.currency or 'money'
+			local currency = fromData.currency or 'cash'
 			local fromItem = Items(fromData.name)
 
 			local result = fromItem.cb and fromItem.cb('buying', fromItem, playerInv, data.fromSlot, shop)
@@ -267,7 +267,7 @@ lib.callback.register('ox_inventory:buyItem', function(source, data)
 
 				if server.syncInventory then server.syncInventory(playerInv) end
 
-				local message = locale('purchased_for', count, metadata?.label or fromItem.label, (currency == 'money' and locale('$') or math.groupdigits(price)), (currency == 'money' and math.groupdigits(price) or ' '..Items(currency).label))
+				local message = locale('purchased_for', count, metadata?.label or fromItem.label, (currency == 'cash' and locale('$') or math.groupdigits(price)), (currency == 'cash' and math.groupdigits(price) or ' '..Items(currency).label))
 
 				if server.loglevel > 0 then
 					if server.loglevel > 1 or fromData.price >= 500 then

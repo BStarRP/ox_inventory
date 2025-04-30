@@ -558,7 +558,6 @@ lib.addCommand({'additem', 'giveitem'}, {
 	restricted = 'group.admin',
 }, function(source, args)
 	local item = Items(args.item)
-
 	if item then
 		local inventory = Inventory(args.target) --[[@as OxInventory]]
 		local count = args.count or 1

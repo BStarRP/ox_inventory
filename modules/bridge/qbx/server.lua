@@ -19,8 +19,7 @@ local function setupPlayer(playerData)
     local accounts = Inventory.GetAccountItemCounts(playerData.source)
     if not accounts then return end
     for account in pairs(accounts) do
-        local playerAccount = account == 'money' and 'cash' or account
-        Inventory.SetItem(playerData.source, account, playerData.money[playerAccount])
+        Inventory.SetItem(playerData.source, account, playerData.money[account])
     end
 end
 
@@ -63,7 +62,6 @@ function server.syncInventory(inv)
     player.Functions.SetPlayerData('items', inv.items)
 
     for account, amount in pairs(accounts) do
-        account = account == 'money' and 'cash' or account
         if player.Functions.GetMoney(account) ~= amount then
             player.Functions.SetMoney(account, amount, ('Sync %s with inventory'):format(account))
         end
@@ -73,7 +71,7 @@ end
 ---@diagnostic disable-next-line: duplicate-set-field
 function server.hasLicense(inv, license)
     local player = QBX:GetPlayer(inv.id)
-    return player and player.PlayerData.metadata.licences[license]
+    return player and player.PlayerData.metadata.licenses[license]
 end
 
 ---@diagnostic disable-next-line: duplicate-set-field
@@ -81,15 +79,15 @@ function server.buyLicense(inv, license)
     local player = QBX:GetPlayer(inv.id)
     if not player then return end
 
-    if player.PlayerData.metadata.licences[license.name] then
+    if player.PlayerData.metadata.licenses[license.name] then
         return false, 'already_have'
-    elseif Inventory.GetItem(inv, 'money', false, true) < license.price then
+    elseif Inventory.GetItem(inv, 'cash', false, true) < license.price then
         return false, 'can_not_afford'
     end
 
-    Inventory.RemoveItem(inv, 'money', license.price)
-    player.PlayerData.metadata.licences[license.name] = true
-    player.Functions.SetMetaData('licences', player.PlayerData.metadata.licences)
+    Inventory.RemoveItem(inv, 'cash', license.price)
+    player.PlayerData.metadata.licenses[license.name] = true
+    player.Functions.SetMetaData('licenses', player.PlayerData.metadata.licenses)
 
     return true, 'have_purchased'
 end

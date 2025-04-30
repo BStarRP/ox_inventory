@@ -12,19 +12,37 @@ local Inventory = require 'modules.inventory.server'
 ---@param source number
 ---@param amount number
 exports('addCash', function(source, amount)
-	Inventory.AddItem(source, 'money', amount)
+	Inventory.AddItem(source, 'cash', amount)
 end)
 
 ---@param source number
 ---@param amount number
 exports('removeCash', function(source, amount)
-	Inventory.RemoveItem(source, 'money', amount)
+	Inventory.RemoveItem(source, 'cash', amount)
 end)
 
 ---@param source number
 ---@return number
 exports('getCash', function(source)
-	return Inventory.GetItemCount(source, 'money')
+	return Inventory.GetItemCount(source, 'cash')
+end)
+
+---@param source number
+---@param amount number
+exports('addMarkedCash', function(source, amount)
+	Inventory.AddItem(source, 'markedcash', amount)
+end)
+
+---@param source number
+---@param amount number
+exports('removeMarkedCash', function(source, amount)
+	Inventory.RemoveItem(source, 'markedcash', amount)
+end)
+
+---@param source number
+---@return number
+exports('getMarkedCash', function(source)
+	return Inventory.GetItemCount(source, 'markedcash')
 end)
 
 ---@param source number

@@ -115,6 +115,6 @@ for k, v in pairs(lib.load('data.items') or {}) do
     end
 end
 
-ItemList.cash = ItemList.money
+--ItemList.cash = ItemList.money
 
 return ItemList

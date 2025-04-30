@@ -53,8 +53,8 @@ if IsDuplicityVersion() then
 				["water", 1, 1],
 				["garbage", 1, 2, 50],
 				["panties", 1, 1, 5],
-				["money", 1, 50],
-				["money", 200, 400, 5],
+				["cash", 1, 50],
+				["cash", 200, 400, 5],
 				["bandage", 1, 1]
 			]
 		]])),
@@ -62,7 +62,7 @@ if IsDuplicityVersion() then
 			[
 				["mustard", 1, 1],
 				["garbage", 1, 3],
-				["money", 1, 10],
+				["cash", 1, 10],
 				["burger", 1, 1]
 			]
 		]])),

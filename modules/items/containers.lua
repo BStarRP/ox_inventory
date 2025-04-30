@@ -51,7 +51,22 @@ local function setContainerProperties(itemName, properties)
 	}
 end
 
+exports('SetContainerProperties', setContainerProperties)
+
+local function getContainerProperties(itemName)
+    local properties = containers[itemName]
+    return properties
+end
+
+exports('GetContainerProperties', getContainerProperties)
+
 setContainerProperties('paperbag', {
+	slots = 5,
+	maxWeight = 1000,
+	blacklist = { 'testburger' }
+})
+
+setContainerProperties('wallet', {
 	slots = 5,
 	maxWeight = 1000,
 	blacklist = { 'testburger' }

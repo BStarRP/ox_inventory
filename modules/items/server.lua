@@ -171,10 +171,8 @@ function Items.Metadata(inv, item, metadata, count)
 	if not item.weapon then metadata = not metadata and {} or type(metadata) == 'string' and {type=metadata} or metadata end
 	if not count then count = 1 end
 
-	---@cast metadata table<string, any>
-
 	if item.weapon then
-		if type(metadata) ~= 'table' then metadata = {} end
+        if type(metadata) ~= 'table' then metadata = {} end
 		if not metadata.durability then metadata.durability = 100 end
 		if not metadata.ammo and item.ammoname then metadata.ammo = 0 end
 		if not metadata.components then metadata.components = {} end
@@ -189,26 +187,28 @@ function Items.Metadata(inv, item, metadata, count)
 			metadata.ammo = metadata.durability
 		end
 	else
-		local container = Items.containers[item.name]
+        if not next(metadata) and item.name == 'garbage' then
+            local trashType = trash[math.random(1, #trash)]
+            metadata.image = trashType.image
+            metadata.weight = trashType.weight
+            metadata.description = trashType.description
+        end
 
-		if container then
+		local container = Items.containers[item.name]
+        if container then
 			count = 1
 			metadata.container = metadata.container or GenerateText(3)..os.time()
-			metadata.size = container.size
-		elseif not next(metadata) then
-			if item.name == 'identification' then
-				count = 1
-				metadata = {
-					type = inv.player.name,
-					description = locale('identification', (inv.player.sex) and locale('male') or locale('female'), inv.player.dateofbirth)
-				}
-			elseif item.name == 'garbage' then
-				local trashType = trash[math.random(1, #trash)]
-				metadata.image = trashType.image
-				metadata.weight = trashType.weight
-				metadata.description = trashType.description
-			end
-		end
+			metadata.size = container.size or {5, 1000}
+        elseif item.type == 'equipment' then
+            count = 1
+            metadata = metadata or {}
+            metadata.type = item.type
+            metadata.durability = metadata.durability or 100
+        elseif item.type == 'card' and inv.player then
+            count = 1
+            metadata = metadata or {}
+            metadata = exports['qb-idcard']:RequestCardMetadata(item.name, inv.player.source)
+        end
 
 		if not metadata.durability then
 			metadata = setItemDurability(ItemList[item.name], metadata)

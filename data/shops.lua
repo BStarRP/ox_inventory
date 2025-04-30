@@ -1,5 +1,5 @@
 return {
-	General = {
+	--[[General = {
 		name = 'Shop',
 		blip = {
 			id = 59, colour = 69, scale = 0.8
@@ -154,7 +154,7 @@ return {
 		}, targets = {
 
 		}
-	},
+	},]]--
 
 	VendingMachineDrinks = {
 		name = 'Vending Machine',
